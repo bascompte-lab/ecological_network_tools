@@ -1,2 +1,2 @@
 # ecological_networks_tools
-Copy of Raul's project present in the old repository 
+This is a copy of Raul's project present in the old repository 
