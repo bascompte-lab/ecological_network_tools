@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592228359715.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1670235753",
+    "id" : "DF292236",
+    "lastKnownWriteTime" : 1592234435,
+    "last_content_update" : 1592234435411,
+    "path" : "~/R/robustness/man/secondary_extinction.Rd",
+    "project_path" : "man/secondary_extinction.Rd",
+    "properties" : {
+        "cursorPosition" : "34,67",
+        "scrollLine" : "19"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

@@ -1,0 +1,10 @@
+Package: robustness
+Type: Package
+Title: Secondary extinction simulator for bipartite networks
+Version: 0.1.0
+Author: Alessandro Vindigni
+Maintainer: <alessandro.vindigni@ieu.uzh.ch>
+Description: This package simulates the secondary extinction of a consumer population (e.g. pollinators) as resources (e.g. plants) are progressively removed. 
+License: GNU Lesser General Public License 3.0
+Encoding: UTF-8
+LazyData: true

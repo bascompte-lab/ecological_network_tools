@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592231530360.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6035611D",
+    "lastKnownWriteTime" : 1585052472,
+    "last_content_update" : 1585052472,
+    "path" : "~/ecological_networks_2020/20_march@vindigni/static_simulating_network_robustness.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "712,32",
+        "scrollLine" : "698"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

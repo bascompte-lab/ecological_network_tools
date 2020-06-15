@@ -1,0 +1,323 @@
+---
+title: "Robustness of ecological networks"
+author: "Bascomptelab"
+date: "12/06/2020"
+output:
+  html_document:
+    df_print: paged
+    theme: journal
+  pdf_document: 
+    latex_engine: xelatex
+header-includes:
+- \usepackage{fontspec}
+- \usepackage{wrapfig}
+- \setmainfont{Arial}
+- \usepackage[fontsize=12pt]{scrextend}
+- \usepackage[labelfont=bf]{caption}
+- \pagenumbering{gobble}
+- \usepackage{booktabs}
+- \usepackage{sectsty} \sectionfont{\centering \emph}
+- \usepackage{tcolorbox}
+
+---
+
+```{r setup, include=FALSE}
+
+source('from_rawdata_to_network.R')
+source('remove_bipartite.R')
+require(formattable)
+require(igraph)
+
+library("tidyverse")
+library("data.table")
+library("repr")
+library(imager)
+library(dplyr) 
+library(latex2exp)
+library(knitr)
+require(igraph)
+require(ggplot2)
+require(reshape2)
+# require(MEclustnet)
+require(permute)
+# require(formatR)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Analysis data collected by Rafael Borges
+
+Before proceeding to analyze the data we need to:
+
+  1. Load the field data 
+  2. Filter the data w.r.t. to a covariable 
+  3. Convert the data to a network 
+
+The robustness is computed without weghting the links between plants and animals (as a binary network).  
+
+### Read data into R
+
+```{r read_data, echo = TRUE}
+# Read data into R. 
+# Note that this file separates columns with ";". 
+# Thus, we sepecify the separator when calling the read.csv function
+data = read.csv("Interactions_data.csv",sep = ";")
+
+```
+
+### Raw data
+
+Uncomment to visualize the raw data: 
+
+```{r vis-table, echo = TRUE}
+ #formattable(data)
+```
+
+### Function to filter data
+Below the dataset is filtered by __Mine_type__ equal to __sand__ and all the possible values of __Stage__: 
+```{r filter-data, echo = TRUE}
+# two filters are actually redundat in this case 
+data_pristine <- filter_data_by_covariables(data,"Mine_type","control") %>% filter_data_by_covariables(.,"Stage","pristine") 
+dim(data_pristine)
+ 
+data_sand_ini <- filter_data_by_covariables(data,"Mine_type","sand") %>% filter_data_by_covariables(.,"Stage","ini")
+dim(data_sand_ini)
+
+data_sand_inter <- filter_data_by_covariables(data,"Mine_type","sand") %>% filter_data_by_covariables(.,"Stage","inter")
+dim(data_sand_inter)
+
+data_sand_adv <- filter_data_by_covariables(data,"Mine_type","sand") %>% filter_data_by_covariables(.,"Stage","adv")
+dim(data_sand_adv)
+```
+
+### Function to convert into network
+
+Convert the dataframe *data_pristine*  into a network and visualize it: 
+```{r visualize-network, echo = TRUE}
+# # to plot the network
+net <- convert_data_to_network(data_pristine)
+LO <- layout_as_bipartite(net)
+# LO <- layout_with_lgl(net)
+
+plot(net, vertex.label=V(net)$Name,
+     vertex.size=2, vertex.label.dist=12, layout=LO[,2:1],
+     vertex.label.degree = pi*V(net)$type,vertex.label.cex=0.8,vertex.color = rgb(0.8,0.4,0.3,0.8),vertex.label.family="Times",vertex.label.color="black",edge.color="black",main = "Pristine Network")
+
+# plot(net, vertex.label=V(net)$Name,
+#      vertex.size=7, vertex.label.dist=8, layout=LO[,2:1],
+#      vertex.label.degree = pi*V(net)$type,vertex.label.cex=0.8,vertex.color = rgb(0.8,0.4,0.3,0.8),vertex.label.family="Times",vertex.label.color="black",edge.color="black",main = "Pristine Network")
+
+ ```
+
+ Compare robustness of **sand networks** versus pristine **network**
+   
+```{r rubustness, echo = TRUE}
+
+# It is faster to run the code on the R script which stres the files in anyway 
+
+# # CHANGE PARAMETERS HERE
+# removal_strategy = "RND" # "LTM" "MTL"
+# # 
+# iter = 20
+NW_pristine <- convert_data_to_incidence_matrix(data_pristine) %>% as.data.frame(.)
+num_plants_pristine <- nrow(NW_pristine)   # number of rows
+num_animals_pristine <- ncol(NW_pristine)  # number of columns
+# RND_pristine <- remove_plants(NW_pristine, iter, removal_strategy)
+# save(RND_pristine,file = paste0(path_to_networks_data, "RND_pristine.RData"))
+# #
+NW_sand_ini <- convert_data_to_incidence_matrix(data_sand_ini) %>% as.data.frame(.)
+num_plants_sand_ini <- nrow(NW_sand_ini)   # number of rows
+num_animals_sand_ini <- ncol(NW_sand_ini)  # number of columns
+# RND_sand_ini  <- remove_plants(NW_sand_ini, iter, removal_strategy)
+# save(RND_sand_ini,file = paste0(path_to_networks_data, "RND_sand_ini.RData"))
+# #
+NW_sand_inter <- convert_data_to_incidence_matrix(data_sand_inter) %>% as.data.frame(.)
+num_plants_sand_inter <- nrow(NW_sand_inter)   # number of rows
+num_animals_sand_inter <- ncol(NW_sand_inter)  # number of columns
+# RND_sand_inter  <- remove_plants(NW_sand_inter, iter, removal_strategy)
+# save(RND_sand_inter,file = paste0(path_to_networks_data, "RND_sand_inter.RData"))
+# #
+NW_sand_adv <- convert_data_to_incidence_matrix(data_sand_adv) %>% as.data.frame(.)
+num_plants_sand_adv <- nrow(NW_sand_adv)   # number of rows
+num_animals_sand_adv <- ncol(NW_sand_adv)  # number of columns
+# RND_sand_adv  <- remove_plants(NW_sand_adv, iter, removal_strategy)
+# save(RND_sand_adv,file = paste0(path_to_networks_data, "RND_sand_adv.RData"))
+
+ ```
+
+
+ 
+**Robustness** of sand networks under random (RND) removal of plants: 
+```{r rubustness_RND_removal, echo=FALSE}
+ path_to_networks_data =  "./Simulation_results/"
+# 
+load(paste0(path_to_networks_data, "RND_pristine.RData"))
+load(paste0(path_to_networks_data, "RND_sand_ini.RData"))
+load(paste0(path_to_networks_data, "RND_sand_inter.RData"))
+load(paste0(path_to_networks_data, "RND_sand_adv.RData"))
+
+annotation_pristine <- data.frame(
+  x = 0.9,
+  y = 0.95,
+  label = paste0("pristine")
+)
+
+annotation_sand_ini <- data.frame(
+  x = 0.9,
+  y = 0.85,
+  label = paste0("sand initial")
+)
+ 
+annotation_sand_inter <- data.frame(
+  x = 0.9,
+  y = 0.75,
+  label = paste0("sand intermediate")
+)
+
+annotation_sand_adv <- data.frame(
+  x = 0.9,
+  y = 0.65,
+  label = paste0("sand advanced")
+)
+
+# 
+ggplot() +
+ ggtitle("strategy: RND") +
+  geom_point(data = RND_pristine, aes(removed_plants/num_plants_pristine, (1- removed_animals/num_animals_pristine)), color = "purple",shape = 1) +
+  geom_point(data = RND_sand_ini, aes(removed_plants/num_plants_sand_ini, (1- removed_animals/num_animals_sand_ini)), color = "red",shape = 1) +
+  geom_point(data = RND_sand_inter, aes(removed_plants/num_plants_sand_inter, (1- removed_animals/num_animals_sand_inter)), color = "orange",shape = 1) +
+  geom_point(data = RND_sand_adv, aes(removed_plants/num_plants_sand_adv, (1- removed_animals/num_animals_sand_adv)), color = "green",shape = 1) +
+  ylab(TeX("$f_{an}$")) +
+  xlab(TeX("$f_{pl}$")) +
+  # # Add text
+  geom_text(data=annotation_pristine, aes( x=x, y=y, label=label),
+            color="purple",
+            size=4 , angle=0) + 
+  geom_text(data=annotation_sand_ini, aes( x=x, y=y, label=label),
+            color="red",
+            size=4 , angle=0) + 
+    geom_text(data=annotation_sand_inter, aes( x=x, y=y, label=label),
+            color="orange",
+            size=4 , angle=0) + 
+    geom_text(data=annotation_sand_adv, aes( x=x, y=y, label=label),
+            color="green",
+            size=4 , angle=0) 
+
+```
+
+
+**Robustness** of sand networks under removal of plants from least to most connected (LTM): 
+```{r rubustness_LTM_removal, echo=FALSE}
+# 
+load(paste0(path_to_networks_data, "LTM_pristine.RData"))
+load(paste0(path_to_networks_data, "LTM_sand_ini.RData"))
+load(paste0(path_to_networks_data, "LTM_sand_inter.RData"))
+load(paste0(path_to_networks_data, "LTM_sand_adv.RData"))
+
+annotation_pristine <- data.frame(
+  x = 0.3,
+  y = 0.55,
+  label = paste0("pristine")
+)
+
+annotation_sand_ini <- data.frame(
+  x = 0.3,
+  y = 0.45,
+  label = paste0("sand initial")
+)
+
+annotation_sand_inter <- data.frame(
+  x = 0.3,
+  y = 0.35,
+  label = paste0("sand intermediate")
+)
+
+annotation_sand_adv <- data.frame(
+  x = 0.3,
+  y = 0.25,
+  label = paste0("sand advanced")
+)
+
+
+# 
+ggplot() +
+ ggtitle("strategy: LTM") +
+  geom_point(data = LTM_pristine, aes(removed_plants/num_plants_pristine, (1- removed_animals/num_animals_pristine)), color = "purple",shape = 2) +
+  geom_point(data = LTM_sand_ini, aes(removed_plants/num_plants_sand_ini, (1- removed_animals/num_animals_sand_ini)), color = "red",shape = 2) +
+  geom_point(data = LTM_sand_inter, aes(removed_plants/num_plants_sand_inter, (1- removed_animals/num_animals_sand_inter)), color = "orange",shape = 2) +
+  geom_point(data = LTM_sand_adv, aes(removed_plants/num_plants_sand_adv, (1- removed_animals/num_animals_sand_adv)), color = "green",shape = 2) +
+  ylab(TeX("$f_{an}$")) +
+  xlab(TeX("$f_{pl}$")) +
+  # # Add text
+  geom_text(data=annotation_pristine, aes( x=x, y=y, label=label),
+            color="purple",
+            size=4 , angle=0) + 
+  geom_text(data=annotation_sand_ini, aes( x=x, y=y, label=label),
+            color="red",
+            size=4 , angle=0) + 
+    geom_text(data=annotation_sand_inter, aes( x=x, y=y, label=label),
+            color="orange",
+            size=4 , angle=0) + 
+    geom_text(data=annotation_sand_adv, aes( x=x, y=y, label=label),
+            color="green",
+            size=4 , angle=0) 
+
+```
+
+
+**Robustness** of sand networks under removal of plants from most to least connected (MTL):
+```{r rubustness_MTL_removal, echo=FALSE}
+#
+load(paste0(path_to_networks_data, "MTL_pristine.RData"))
+load(paste0(path_to_networks_data, "MTL_sand_ini.RData"))
+load(paste0(path_to_networks_data, "MTL_sand_inter.RData"))
+load(paste0(path_to_networks_data, "MTL_sand_adv.RData"))
+
+annotation_pristine <- data.frame(
+  x = 0.9,
+  y = 0.95,
+  label = paste0("pristine")
+)
+
+annotation_sand_ini <- data.frame(
+  x = 0.9,
+  y = 0.85,
+  label = paste0("sand initial")
+)
+ 
+annotation_sand_inter <- data.frame(
+  x = 0.9,
+  y = 0.75,
+  label = paste0("sand intermediate")
+)
+
+annotation_sand_adv <- data.frame(
+  x = 0.9,
+  y = 0.65,
+  label = paste0("sand advanced")
+)
+
+#
+ggplot() +
+ ggtitle("strategy: MTL") +
+  geom_point(data = MTL_pristine, aes(removed_plants/num_plants_pristine, (1- removed_animals/num_animals_pristine)), color = "purple",shape = 3) +
+  geom_point(data = MTL_sand_ini, aes(removed_plants/num_plants_sand_ini, (1- removed_animals/num_animals_sand_ini)), color = "red",shape = 3) +
+  geom_point(data = MTL_sand_inter, aes(removed_plants/num_plants_sand_inter, (1- removed_animals/num_animals_sand_inter)), color = "orange",shape = 3) +
+  geom_point(data = MTL_sand_adv, aes(removed_plants/num_plants_sand_adv, (1- removed_animals/num_animals_sand_adv)), color = "green",shape = 3) +
+  ylab(TeX("$f_{an}$")) +
+  xlab(TeX("$f_{pl}$")) +
+  # # Add text
+  geom_text(data=annotation_pristine, aes( x=x, y=y, label=label),
+            color="purple",
+            size=4 , angle=0) +
+  geom_text(data=annotation_sand_ini, aes( x=x, y=y, label=label),
+            color="red",
+            size=4 , angle=0) +
+    geom_text(data=annotation_sand_inter, aes( x=x, y=y, label=label),
+            color="orange",
+            size=4 , angle=0) +
+    geom_text(data=annotation_sand_adv, aes( x=x, y=y, label=label),
+            color="green",
+            size=4 , angle=0)
+
+```
