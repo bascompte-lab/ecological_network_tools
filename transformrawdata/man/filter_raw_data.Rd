@@ -8,7 +8,7 @@ Filter raw data
 This fucntion filters raw data loaded from a csv file by a specific value of a selected column.
 }
 \usage{
-filter_raw_data(df,column_name,column_value)
+filter_raw_data(df, column_name, column_value)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,14 +40,14 @@ Fernando Pedraza
 }
 \examples{
 ## import df from csv file
-df = read.csv("raw_data.csv",sep = ";")
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+df = read.csv("raw_data.csv", sep = ";")
 
-## The function is currently defined as
-function (x)
-{
-  }
+## filter by the value = "green" of the column "color"
+df_out <- filter_raw_data(df, "color", "green")
+
+## filter as above plus by the value = "large" of the column "size"
+df_out <- filter_raw_data(df, "color", "green") \%>\% filter_raw_data(., "size", "large")
+
 }
 
 \keyword{ ~filter }% use one of  RShowDoc("KEYWORDS")

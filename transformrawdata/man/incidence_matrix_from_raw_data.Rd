@@ -5,7 +5,7 @@
 Transform raw data into an incidence matrix
 }
 \description{
-This functions transforms raw data into the corresponding incidence matrix.
+This function transforms raw data into the corresponding incidence matrix.
 }
 \usage{
 incidence_matrix_from_raw_data(df)
@@ -41,14 +41,9 @@ incidence_matrix_from_raw_data(df)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+## df is a dataframe
+my_matrix <- incidence_matrix_from_raw_data(df)
 
-## The function is currently defined as
-function (x)
-{
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

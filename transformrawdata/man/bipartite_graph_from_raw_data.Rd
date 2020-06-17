@@ -1,14 +1,14 @@
-\name{transform_raw_data_into_network}
-\alias{transform_raw_data_into_network}
+\name{bipartite_graph_from_raw_data}
+\alias{bipartite_graph_from_raw_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Transform raw data into network
+Transform raw data into a bipartite graph.
 }
 \description{
-This funciton transforms raw data into network. It requires igraph.
+This funciton transforms raw data into a bipartite graph. It requires igraph.
 }
 \usage{
-transform_raw_data_into_network(df)
+bipartite_graph_from_raw_data(df)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,14 +37,8 @@ A bipartite igraph graph. In other words, an igraph graph that has a vertex attr
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x)
-{
-  }
+## df is an incidence matrix as dataframe
+bipartite_graph_from_raw_data(df)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
