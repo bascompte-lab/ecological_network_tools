@@ -19,11 +19,7 @@ transform_raw_data_into_network(df)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A bipartite igraph graph. In other words, an igraph graph that has a vertex attribute type.
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -52,5 +48,5 @@ function (x)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{bipartite networks}% use one of  RShowDoc("KEYWORDS")
+\keyword{bipartite graph}% use one of  RShowDoc("KEYWORDS")
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

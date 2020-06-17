@@ -1,14 +1,14 @@
-\name{transform_raw_data_into_incidence_matrix}
-\alias{transform_raw_data_into_incidence_matrix}
+\name{incidence_matrix_from_raw_data}
+\alias{incidence_matrix_from_raw_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Transform raw data into incidence matrix
+Transform raw data into an incidence matrix
 }
 \description{
 This functions transforms raw data into the corresponding incidence matrix.
 }
 \usage{
-transform_raw_data_into_incidence_matrix(df)
+incidence_matrix_from_raw_data(df)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

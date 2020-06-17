@@ -4,7 +4,7 @@ Title: Transform raw data
 Version: 0.1.0
 Author: Fernando Pedraza
 Maintainer: <fernando.pedraza@ieu.uzh.ch>
-Description: Contains functions to filter raw data provided in csv format and convert them into an incidence matrix or a network. 
+Description: Contains functions to filter raw data provided in csv format and convert them into an incidence matrix or a bipartite graph. 
 License: GNU Lesser General Public License 3.0
 Encoding: UTF-8
 LazyData: true

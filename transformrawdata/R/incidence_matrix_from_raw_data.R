@@ -1,4 +1,4 @@
-transform_raw_data_into_incidence_matrix = function(data){
+incidence_matrix_from_raw_data = function(data){
   #############################################
   # Initialize empty matrix to fill
   #############################################
