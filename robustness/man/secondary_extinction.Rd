@@ -8,18 +8,15 @@ Secondary extinction of consumers by progressive removal of resources
 This function simulates the secondary extinction of a consumer population (e.g., pollinators) as resources (e.g., plants) are progressively removed.
 }
 \usage{
-remove_sources(my_network, 20, "RND")
+remove_plants(my_network, 20, "RND")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bipartite_network}{
-   \code{bipartite_network} = dataframe representing the incidence matrix relating two species, rows and columns
+  \item{bipartite_network}{dataframe representing the incidence matrix relating two species, rows and columns
    }
-  \item{n_iter}{
-  \code{n_iter} = number of iterations for randomized removal strategies (see below)
+  \item{n_iter}{integer, number of iterations for randomized removal strategies (see below)
 }
-  \item{strategy}{
-  \code{strategy} = String that defines the removal startegy; possible values: \cr
+  \item{strategy}{string that defines the removal startegy; possible values: \cr
   "RND" = randomly \cr
   "LTM" = from least connected (most specialized) to most connected (most generalist) \cr
   "MTL" = from most connected (most generalist) to least connected (most specialized)
@@ -31,8 +28,8 @@ remove_sources(my_network, 20, "RND")
 \value{
 dataframe
 %%  If it is a LIST, use
-\item{removed_plants =}{number of plants removed}
-\item{removed_animals =}{average number of animals that go extinct  after having removed a given number of plants}
+\item{removed_plants}{ number of plants removed}
+\item{removed_animals}{ average number of animals that go extinct  after having removed a given number of plants}
 %% ...
 }
 \references{
