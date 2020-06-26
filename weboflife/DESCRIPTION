@@ -1,0 +1,16 @@
+Package: weboflife
+Type: Package
+Title: Access ecological network data from the "Web of Life" database
+Version: 0.1.0
+Author: Matthew A. Barbour and Miguel Fortuna
+Maintainer: Matthew A. Barbour <matthew.barbour@ieu.uzh.ch>
+Description: This package allows R users to quickly access data and metadata for ecological networks from the "Web of Life" database. It is one of the largest databases for ecological networks in the world.
+    Go to www.weboflife.es to see the online interface and get a feel for the available data.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+  plyr,
+  tidyverse,
+  jsonlite,
+  data.table
