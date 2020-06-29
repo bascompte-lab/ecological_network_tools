@@ -1,14 +1,14 @@
-\name{secondary_extinction}
-\alias{secondary_extinction}
+\name{remove_plants}
+\alias{remove_plants}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Secondary extinction of consumers by progressive removal of resources
+Simulate secondary extinction of consumers by progressive removal of resources
 }
 \description{
 This function simulates the secondary extinction of a consumer population (e.g., pollinators) as resources (e.g., plants) are progressively removed.
 }
 \usage{
-remove_plants(my_network, 20, "RND")
+remove_plants(bipartite_network, n_iter, strategy, i_seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,9 +21,10 @@ remove_plants(my_network, 20, "RND")
   "LTM" = from least connected (most specialized) to most connected (most generalist) \cr
   "MTL" = from most connected (most generalist) to least connected (most specialized)
 }
+   \item{i_seed}{integer, seed of the random sequence}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Required packages: fastmatch, permute
 }
 \value{
 dataframe
@@ -48,13 +49,18 @@ Alessandro Vindigni
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+## download the package weboflife, which contains the function get_networks()
+devtools::install_github("bascomptelab/ecological_network_tools/weboflife")
+library(weboflife)
 
-## A sample dataset downloaded from the http://www.web-of-life.es/ database \cr
-## is stored in the "data" folder; we load that data in a variable
-NW_PL_062 <- load("data/weboflife_PL_062.RData")
+## use the function get_networks() to download one network ("M_PL_062") from the the http://www.web-of-life.es/ database
+my_network <- get_networks(network_name = "M_PL_062")
 
-## To simulate secondary extinction of pollinators removing plants at random:
-remove_plants(NW_PL_062, 2, "RND")
+## transform the data into a suitable format for the funciton remove_plants()
+NW_PL_062 <-  column_to_rownames(my_network, var="V1")
+
+## simulate secondary extinction of pollinators removing plants at random:
+remove_plants(NW_PL_062, 3, "RND", 125)
 
 }
 
