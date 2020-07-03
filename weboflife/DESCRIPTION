@@ -14,3 +14,4 @@ Imports:
   tidyverse,
   jsonlite,
   data.table
+RoxygenNote: 6.1.1

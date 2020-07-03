@@ -21,7 +21,7 @@ remove_plants(bipartite_network, n_iter, strategy, i_seed)
   "LTM" = from least connected (most specialized) to most connected (most generalist) \cr
   "MTL" = from most connected (most generalist) to least connected (most specialized)
 }
-   \item{i_seed}{integer seed of the random sequence}
+   \item{i_seed}{integer, seed of the random sequence}
 }
 \details{
 Required packages: fastmatch, permute
