@@ -1,0 +1,11 @@
+Package: nichenetgenerator
+Type: Package
+Title: Builds a bipartite network following the niche model for food webs
+Version: 0.1.0
+Author: Fernando Pedraza
+Maintainer: Fernando Pedraza <fernando.pedraza@ieu.uzh.ch>
+Description: This packages allows users to build a bipartite network by implementing the niche model as described in Pires et al. 2011. https://doi.org/10.1371/journal.pone.0027280
+    Users specify the desired number of species in the network and the target connectance.
+License: MIT
+Encoding: UTF-8
+LazyData: true
