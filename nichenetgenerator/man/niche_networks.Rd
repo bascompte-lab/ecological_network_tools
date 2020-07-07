@@ -34,6 +34,7 @@ niche_networks(num_sp_in_A,num_sp_in_B,empirical_connectance)
   Returns an incidence matrix of the network.
 }
 \references{
+Do Food Web Models Reproduce the Structure of Mutualistic Networks? Mathias M. Pires, Paulo I Prado and Paulo R. Guimaraes Jr. 2011,  https://doi.org/10.1371/journal.pone.0027280
 %% ~put references to the literature/web site here ~
 }
 \author{
