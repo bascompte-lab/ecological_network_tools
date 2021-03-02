@@ -1,4 +1,4 @@
-remove_plants <-function(bipartite_network, n_iter, strategy, i_seed) {
+remove_plants <- function(bipartite_network, n_iter, strategy, i_seed) {
   library(fastmatch)
   library(permute)
   set.seed(i_seed)
