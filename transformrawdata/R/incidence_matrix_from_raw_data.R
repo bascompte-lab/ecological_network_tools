@@ -19,8 +19,10 @@ incidence_matrix_from_raw_data = function(data){
     interactions_for_current_species = subset(data,data[[partnerA]] == species)[[partnerB]]
 
     for (partner in interactions_for_current_species) {
-      incidence_matrix[species,partner] = incidence_matrix[species,partner] + 1
+      incidence_matrix[as.character(species),as.character(partner)] =
+        incidence_matrix[as.character(species),as.character(partner)] + 1
     }
   }
+
   return(incidence_matrix)
 }
