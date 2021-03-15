@@ -1,11 +1,12 @@
-convert_data_to_network = function(data,covariable_to_filter_by,level_of_covariable_to_filter_by){
+convert_data_to_network <- function(data,covariable_to_filter_by,level_of_covariable_to_filter_by){
 
   #############################################
   # Subset data based on input parameters
   #############################################
 
-  if (covariable_to_filter_by == "none" | level_of_covariable_to_filter_by == "none" |
-      missing(covariable_to_filter_by) | missing(level_of_covariable_to_filter_by)){
+  if (missing(covariable_to_filter_by) | missing(level_of_covariable_to_filter_by)){
+    data = data[,1:3] # take only the first columns of our spreadsheet
+  } else if (covariable_to_filter_by == "none" | level_of_covariable_to_filter_by == "none"){
     data = data[,1:3] # take only the first columns of our spreadsheet
   } else {
     data = subset(data,data[,covariable_to_filter_by] == level_of_covariable_to_filter_by)
