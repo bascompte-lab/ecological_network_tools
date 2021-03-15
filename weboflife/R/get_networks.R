@@ -70,9 +70,7 @@ get_networks <- function(network_name, interaction_type = "all", data_type = "al
                  sep = "")
 
     # download the requested network from www.web-of-life.es
-    data <- data.table::fread(url) %>%
-      remove_rownames %>%
-      column_to_rownames(var="V1")
+    data <- data.table::fread(url)
     return (data)
   }
 }
