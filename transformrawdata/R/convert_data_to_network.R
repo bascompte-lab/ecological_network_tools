@@ -1,4 +1,4 @@
-convert_data_to_network <- function(data,covariable_to_filter_by,level_of_covariable_to_filter_by){
+convert_data_to_network <- function(data,covariable_to_filter_by="none",level_of_covariable_to_filter_by="none"){
 
   #############################################
   # Subset data based on input parameters
