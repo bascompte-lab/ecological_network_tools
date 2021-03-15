@@ -4,11 +4,10 @@ convert_data_to_network = function(data,covariable_to_filter_by,level_of_covaria
   # Subset data based on input parameters
   #############################################
 
-  if (covariable_to_filter_by == "none" | level_of_covariable_to_filter_by == "none") {
+  if (covariable_to_filter_by == "none" | level_of_covariable_to_filter_by == "none" |
+      missing(covariable_to_filter_by) | missing(level_of_covariable_to_filter_by)){
     data = data[,1:3] # take only the first columns of our spreadsheet
-  }
-
-  else{
+  } else {
     data = subset(data,data[,covariable_to_filter_by] == level_of_covariable_to_filter_by)
     data = data[,1:3] # take only the first columns of our spreadsheet
   }
