@@ -1,4 +1,4 @@
-incidence_matrix_from_raw_data = function(data){
+incidence_matrix_from_dataframe = function(data){
   #############################################
   # Initialize empty matrix to fill
   #############################################
