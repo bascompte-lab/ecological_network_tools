@@ -25,7 +25,7 @@ get_networks <- function(network_name, interaction_type = "all", data_type = "al
 
 
     # create a file (json_networks) with the names of the networks we would like to download
-    json_file <- paste("http://www.web-of-life.es/networkslist.php?type=",
+    json_file <- paste("https://www.web-of-life.es/networkslist.php?type=",
                        type_id, "&data=", data_id, sep = "")
     json_networks <- rjson::fromJSON(file = json_file) #rjson::fromJSON(paste(readLines(json_file), collapse = ""))
 
@@ -40,7 +40,7 @@ get_networks <- function(network_name, interaction_type = "all", data_type = "al
         print(networkName)
 
         # building the URL
-        url <- paste("http://www.web-of-life.es/download/",
+        url <- paste("https://www.web-of-life.es/download/",
                      networkName,
                      "_",
                      speciesName, ".csv",
@@ -62,7 +62,7 @@ get_networks <- function(network_name, interaction_type = "all", data_type = "al
 
   else  # network_name passed as an argument
   {
-    url <- paste("http://www.web-of-life.es/download/",
+    url <- paste("https://www.web-of-life.es/download/",
                  network_name,
                  "_",
                  speciesName,
