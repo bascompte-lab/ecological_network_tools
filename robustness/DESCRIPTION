@@ -8,3 +8,4 @@ Description: This package simulates the secondary extinction of a consumer popul
 License: GNU Lesser General Public License 3.0
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.0

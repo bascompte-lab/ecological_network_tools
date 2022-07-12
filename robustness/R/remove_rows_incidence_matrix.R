@@ -1,4 +1,4 @@
-remove_plants <- function(bipartite_network, n_iter, strategy, i_seed) {
+remove_rows <- function(bipartite_network, n_iter, strategy, i_seed) {
   library(fastmatch)
   library(permute)
   set.seed(i_seed)
@@ -12,68 +12,76 @@ remove_plants <- function(bipartite_network, n_iter, strategy, i_seed) {
 
   print(paste0("dim ", dim(bipartite_network)))
 
-  v_plants <- row.names(bipartite_network)
+  v_rows <- rownames(bipartite_network)
 
   res <- c()
 
-  plants_ext = replicate(length(v_plants),0)
-  animals_ext = replicate(length(v_plants),0)
+  rows_ext <- replicate(length(v_rows),0)
+  columns_ext <- replicate(length(v_rows),0)
 
   for (iter in 1:n_iter){
 
     print(paste0("iter = ",iter))
 
-    iprim_ext = 0
-    isec_ext = 0
-    iloop = 0
+    iprim_ext <- 0
+    isec_ext <- 0
+    iloop <- 0
     df_old <- bipartite_network
 
-    if (strategy == "RND") v_rnd <- v_plants[shuffle(v_plants)]
+    if (strategy == "RND") v_rnd <- v_rows[shuffle(v_rows)]
     if (strategy == "LTM") v_rnd <- order_and_shuffle_bipartite(bipartite_network, FALSE)[,1]
     if (strategy == "MTL") v_rnd <- order_and_shuffle_bipartite(bipartite_network, TRUE)[,1]
 
-    # print(v_rnd)
+    for (row in v_rnd){
 
-    for (plant in v_rnd){
+      # print(row)
 
-      iloop = iloop + 1 # counter
+      iloop <- iloop + 1 # counter
 
-      ip = grep(plant, row.names(df_old))
+      ip <- which(rownames(df_old) == row)
 
       if (length(ip) != 0) df <- df_old[-ip,]
 
-      iprim_ext = iprim_ext + length(ip)
+      iprim_ext <- iprim_ext + length(ip)
 
       if(is.null(dim(df))) {
         print("achtung dim(df) is null and iterations stop!!!")
+        rows_ext[iloop] <- rows_ext[iloop] + nrow(bipartite_network)
+        columns_ext[iloop] <- columns_ext[iloop] + ncol(bipartite_network)
         break
       }
-      if(nrow(df) == 0)break
+
+      if(nrow(df) == 0){
+        rows_ext[iloop] <- rows_ext[iloop] + nrow(bipartite_network)
+        columns_ext[iloop] <- columns_ext[iloop] + ncol(bipartite_network)
+        break
+      }
 
       #
       #  # check secondary extinction
       v_extinction <- c()
-      v_animals <- names(df)
-      for(animal in v_animals){
-        w <- df[,animal]
+      v_columns <- colnames(df)
+
+      for(col in v_columns){
+        w <- df[,col]
         if (all(w == 0)) {
-          # print(paste0(animal, "  goes extinct"))
-          v_extinction <- c(v_extinction, animal)
-          isec_ext = isec_ext + 1
+          # print(paste0(col, "  goes extinct"))
+          v_extinction <- c(v_extinction, col)
+          isec_ext <- isec_ext + 1
         }
       }
 
       if(length(v_extinction)>0){
 
         for (aa in v_extinction){
-          ja = fmatch(aa, colnames(df))
+          ja <- fmatch(aa, colnames(df))
           df <- df[ ,-ja]
 
         }
       }
 
-      plants_ext[iloop] = plants_ext[iloop] + iprim_ext
-      animals_ext[iloop] = animals_ext[iloop] + isec_ext
+      rows_ext[iloop] <- rows_ext[iloop] + iprim_ext
+      columns_ext[iloop] <- columns_ext[iloop] + isec_ext
 
       df_old <- df
 
@@ -81,10 +89,10 @@ remove_plants <- function(bipartite_network, n_iter, strategy, i_seed) {
   }
 
 
-  res <- cbind(plants_ext/n_iter,animals_ext/n_iter)
+  res <- cbind(rows_ext/n_iter,columns_ext/n_iter)
 
   res_data <- data.frame(res)
-  names(res_data) <-c("removed_plants","removed_animals")
+  names(res_data) <-c("removed_rows","removed_columns")
   return(res_data)
 }
 
@@ -100,28 +108,28 @@ degree_moments <- function(bipartite_network){
 order_and_shuffle_bipartite <- function(bipartite_network,desc){
 
   # Compute degree for Row Species and order in descending if desc == TRUE
-  degree_vector = sort(rowSums(bipartite_network),decreasing = desc)
+  degree_vector <- sort(rowSums(bipartite_network),decreasing = desc)
   # Extract the Species names associated to the ordering
-  names_vector = names(degree_vector)
+  names_vector <- names(degree_vector)
   # Convert names and degree to data frame
-  name_degree_df = data.frame(names_vector,unname(degree_vector))
+  name_degree_df <- data.frame(names_vector,unname(degree_vector))
   # Name the columns of the dataframe
-  names(name_degree_df) = c("name","degree")
+  names(name_degree_df) <- c("name","degree")
   # Initialize empty dataframe to store shuffling
-  shuffled_df = data.frame(NULL)
+  shuffled_df <- data.frame(NULL)
 
   # Loop through unique degree values
   for (i in unique(name_degree_df$degree)) {
     # Find all Species names with i degree and store in vector
-    name_by_degree = name_degree_df$name[which(name_degree_df$degree == i)]
+    name_by_degree <- name_degree_df$name[which(name_degree_df$degree == i)]
     # Shuffle vector
-    shf_name_by_degree = sample(name_by_degree)
+    shf_name_by_degree <- sample(name_by_degree)
     # Create a new dataframe for the shuffled names and current degree value
-    shf_df_by_degree = data.frame(as.matrix(shf_name_by_degree,nrow=1),(as.matrix(rep(i,length(shf_name_by_degree)),nrow = 1)))
+    shf_df_by_degree <- data.frame(as.matrix(shf_name_by_degree,nrow=1),(as.matrix(rep(i,length(shf_name_by_degree)),nrow = 1)))
     # Name the current degree dataframe
-    names(shf_df_by_degree) = c("name","degree")
+    names(shf_df_by_degree) <- c("name","degree")
     # Fill the overall dataframe with current shuffle
-    shuffled_df = rbind(shuffled_df,shf_df_by_degree)
+    shuffled_df <- rbind(shuffled_df,shf_df_by_degree)
   }
   # Return overall dataframe
   return(shuffled_df)

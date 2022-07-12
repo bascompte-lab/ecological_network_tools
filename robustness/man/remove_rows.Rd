@@ -1,5 +1,5 @@
-\name{remove_plants}
-\alias{remove_plants}
+\name{remove_rows}
+\alias{remove_rows}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Simulate secondary extinction of consumers by progressive removal of resources
@@ -8,7 +8,7 @@ Simulate secondary extinction of consumers by progressive removal of resources
 This function simulates the secondary extinction of a consumer population (e.g., pollinators) as resources (e.g., plants) are progressively removed.
 }
 \usage{
-remove_plants(bipartite_network, n_iter, strategy, i_seed)
+remove_rows(bipartite_network, n_iter, strategy, i_seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,8 +29,8 @@ Required packages: fastmatch, permute
 \value{
 dataframe
 %%  If it is a LIST, use
-\item{removed_plants}{ number of plants removed}
-\item{removed_animals}{ average number of animals that go extinct  after having removed a given number of plants}
+\item{removed_rows}{ number of resources removed}
+\item{removed_rows}{ average number of consumers that go extinct after having removed a given number of resources}
 %% ...
 }
 \references{
@@ -53,14 +53,6 @@ Alessandro Vindigni
 devtools::install_github("bascomptelab/ecological_network_tools/weboflife")
 library(weboflife)
 
-## use the function get_networks() to download one network ("M_PL_062") from the the http://www.web-of-life.es/ database
-my_network <- get_networks(network_name = "M_PL_062")
-
-## transform the data into a suitable format for the funciton remove_plants()
-NW_PL_062 <-  column_to_rownames(my_network, var="V1")
-
-## simulate secondary extinction of pollinators removing plants at random:
-remove_plants(NW_PL_062, 3, "RND", 125)
 
 }
 

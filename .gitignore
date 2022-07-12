@@ -13,6 +13,8 @@ nullmodels/.Rproj.user/
 robustness/.Rhistory
 robustness/.Rbuildignore
 robustness/.Rproj.user/
+robustness.Rcheck/
+robustness_0.1.0.tar.gz
 #
 transformrawdata/.Rhistory
 transformrawdata/.Rbuildignore
@@ -21,4 +23,3 @@ transformrawdata/.Rproj.user/
 weboflife/.Rhistory
 weboflife/.Rbuildignore
 weboflife/.Rproj.user/
-
